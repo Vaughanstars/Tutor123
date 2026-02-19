@@ -13,7 +13,7 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user if not exists
+        // Create admin user 
         User::firstOrCreate(
             ['email' => 'technology@tutor123.ca'], 
             [
