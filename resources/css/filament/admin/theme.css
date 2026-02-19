@@ -1,0 +1,37 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+/* Define your CSS variables */
+:root {
+    --color-main-primary: #343A40;
+    --color-main-secondary: #F5F6F9;
+}
+
+/* Apply the variable directly */
+.fi-sidebar {
+    background-color: var(--color-main-primary);
+}
+.fi-sidebar-item-icon , .fi-sidebar-item-label{
+    color: white;
+}
+/* Sidebar item hover styles */
+.fi-sidebar-item-button:hover .fi-sidebar-item-icon,
+.fi-sidebar-item-button:hover .fi-sidebar-item-label {
+    color: black;
+}
+.bg-gray-100 {
+background-color: #ca8a04;
+}
+.fi-logo {
+    height: 5.5rem !important;
+}
+/* .fi-sidebar-header {
+     background-color: var(--color-main-primary);
+} */
+.fi-theme-switcher {
+    display: none;
+}
+.fi-dropdown-panel {
+    width: 20%;
+}

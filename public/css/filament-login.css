@@ -1,0 +1,14 @@
+/* Make login card wider to fit large logo */
+.filament-login-card {
+    max-width: 28rem;  /* default is smaller */
+    padding-top: 4rem; /* adds space above */
+}
+
+/* Force logo to display at desired height */
+.filament-login-logo img {
+    height: 200px;  /* adjust as needed */
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

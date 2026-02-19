@@ -1,0 +1,19 @@
+/* Sidebar background */
+[data-sidebar] {
+    background-color: #1f2937 !important; /* dark gray, change as you like */
+}
+
+/* Topbar / header background */
+[data-header] {
+    background-color: #111827 !important; /* dark header, change as you like */
+}
+
+/* Optional: text colors in sidebar */
+[data-sidebar] a {
+    color: #ffffff !important;
+}
+
+/* Optional: active link background */
+[data-sidebar] a.active {
+    background-color: #2563eb !important; /* active menu highlight */
+}
