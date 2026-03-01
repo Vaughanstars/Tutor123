@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+    protected $hidden = [
+        'password',
+    ];
 
     protected $fillable = [
         'student_id',
@@ -15,6 +18,7 @@ class Student extends Model
         'middle_name',
         'last_name',
         'email',
+        'password',
         'phone',
         'dob',
         'gender',
@@ -51,6 +55,11 @@ class Student extends Model
     public function classSessions()
     {
         return $this->belongsToMany(ClassSession::class, 'class_session_student', 'student_id', 'class_session_id');
+    }
+
+    public function parents()
+    {
+        return $this->hasMany(ParentModel::class);
     }
 
 

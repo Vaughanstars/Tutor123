@@ -8,20 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     use HasFactory;
+    protected $hidden = [
+        'password',
+    ];
 
-    // ✅ Add all columns that you want to allow mass assignment
+    //  Add all columns that you want to allow mass assignment
     protected $fillable = [
         'teacher_id',
         'first_name',
         'middle_name',
         'last_name',
         'email',
+        'password',
         'phone',
         'dob',
         'gender',
         'image',
         'teacher_id_document',
         'status',
+        'qualification',
+        'years_of_experience',
     ];
 
     protected static function booted()
@@ -43,9 +49,9 @@ class Teacher extends Model
         return $this->hasMany(ClassSession::class);
     }
     public function getFullNameAttribute()
-{
-    return trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
-}
+    {
+        return trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
+    }
 
 
 }
