@@ -131,17 +131,13 @@ class ClassSessionResource extends Resource
                 ->sortable(),
 
                 TextColumn::make('start_time')
-                ->label('Start Time')
-                ->time('H:i'),
-
-                // TextColumn::make('start_time')
-                // ->label('Start Time'),
+                ->label('Start Time'),
 
                 TextColumn::make('end_time')
-                ->label('End Time')->time('H:i'),
+                ->label('End Time'),
 
                 TextColumn::make('teacher.full_name')
-                ->label('Teacher')->searchable(['first_name', 'middle_name', 'last_name']),
+                ->label('Teacher'),
 
 
                 BadgeColumn::make('students_count')

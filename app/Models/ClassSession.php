@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassSession extends Model
 {
+
+    protected $casts = [
+        'start_time' => 'datetime',
+    ];
+    
     protected $fillable = [
         'title',
         'description',

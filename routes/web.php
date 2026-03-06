@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Models\ClassSession;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,3 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+Route::get('/admin/class-sessions/{classSession}/students', function (App\Models\ClassSession $classSession) {
+    return view('filament.class-students', [
+        'classSession' => $classSession,
+        'students' => $classSession->students,
+    ]);
+})->name('filament.class-sessions.students');

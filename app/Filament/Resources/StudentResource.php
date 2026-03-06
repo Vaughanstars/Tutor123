@@ -21,6 +21,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Illuminate\Support\Facades\Hash;
 
 class StudentResource extends Resource
 {
@@ -44,6 +45,13 @@ class StudentResource extends Resource
                     TextInput::make('middle_name'),
                     TextInput::make('last_name')->required(),
                     TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
+                    TextInput::make('password')
+                    ->label('Password')
+                    ->password()
+                    ->required(fn (string $context): bool => $context === 'create')
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->maxLength(255),
                     TextInput::make('phone'),
                     DatePicker::make('dob')->label('Date of Birth'),
                     Select::make('gender')
@@ -52,6 +60,7 @@ class StudentResource extends Resource
                             'Female' => 'Female',
                             'Other' => 'Other',
                         ]),
+                    Textarea::make('note')->label('Note')->rows(3),
                     FileUpload::make('image')
                         ->label('Photo')
                         ->image()
@@ -64,7 +73,6 @@ class StudentResource extends Resource
                         ->directory(fn ($record) => 'students/' . ($record?->id ?? 'new') . '/documents')
                         ->nullable(),
                     Toggle::make('status')->label('Enabled')->default(true),
-                    Textarea::make('note')->label('Note')->rows(3),
                 ]),
             ]);
     }
@@ -77,7 +85,7 @@ class StudentResource extends Resource
                 TextColumn::make('full_name')
                     ->label('Full Name')
                     ->getStateUsing(fn ($record) => trim("{$record->first_name} {$record->middle_name} {$record->last_name}"))
-                    ->sortable()->searchable(),
+                    ->sortable()->searchable(['first_name', 'middle_name', 'last_name']),
                 TextColumn::make('email')->sortable()->searchable(),
                 TextColumn::make('phone'),
                 TextColumn::make('gender'),
@@ -132,8 +140,8 @@ class StudentResource extends Resource
             'edit' => Pages\EditStudent::route('/{record}/edit'),
         ];
     }
-    public static function canViewAny(): bool
-    {
-        return false;
-    }
+    // public static function canViewAny(): bool
+    // {
+    //     return false;
+    // }
 }
