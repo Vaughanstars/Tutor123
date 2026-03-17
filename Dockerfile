@@ -8,9 +8,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql intl zip \
     && a2enmod rewrite
 
-# Install Node.js & npm
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
+
 
 # Copy project files
 COPY . /var/www/html
