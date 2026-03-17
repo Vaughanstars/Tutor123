@@ -1,17 +1,10 @@
-# Stage 0: PHP + Apache
 FROM php:8.2-apache
 
-# Set working directory
 WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    curl \
-    libicu-dev \
-    libzip-dev \
-    zip \
+    git unzip curl libicu-dev libzip-dev zip \
     && docker-php-ext-install pdo pdo_mysql intl zip \
     && a2enmod rewrite
 
@@ -22,7 +15,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 # Copy project files
 COPY . /var/www/html
 
-# Copy Composer from official Composer image
+# Copy Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Install PHP dependencies
@@ -31,18 +24,14 @@ RUN composer install --no-interaction --optimize-autoloader
 # Install Node dependencies and build frontend
 RUN npm install && npm run build
 
-# Set proper permissions for Laravel
+# Set proper permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port
-EXPOSE 8000
+# Set Apache to serve /public folder
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
-# Default command
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
-    environment:
-      DB_CONNECTION: mysql
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_DATABASE: lms
-      DB_USERNAME: root
-      DB_PASSWORD: root
+# Expose Apache port
+EXPOSE 80
+
+# Start Apache in foreground
+CMD ["apache2-foreground"]
