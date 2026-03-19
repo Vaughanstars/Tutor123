@@ -20,6 +20,7 @@ class ParentModel extends Model
         'relation',
         'note',
         'password',
+        'photo',
     ];
 
     protected $hidden = [

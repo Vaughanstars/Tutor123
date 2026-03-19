@@ -18,7 +18,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Facades\Hash;
 use Filament\Tables\Columns\TextColumn;
-
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ImageColumn;
 
 class ParentModelResource extends Resource
 {
@@ -105,6 +106,14 @@ class ParentModelResource extends Resource
             ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
             ->dehydrated(fn ($state) => filled($state)),
+
+
+            FileUpload::make('photo')
+            ->label('Image')
+            ->image()
+            ->disk('public')
+            ->directory(fn ($record) => 'parents/' . ($record?->id ?? 'new') . '/photos')
+            ->nullable(),
         ]);
     }
 
@@ -118,6 +127,14 @@ class ParentModelResource extends Resource
             TextColumn::make('phone'),
             TextColumn::make('student.full_name')->label('Student'),
             TextColumn::make('relation'),
+
+            ImageColumn::make('photo')
+            ->label('Photo')
+            ->disk('public')
+            ->rounded()
+            ->height(50)
+            ->width(50)
+            ->default(asset('images/user.jpg')), 
         ])
         ->actions([
             Tables\Actions\EditAction::make(),

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+
     protected $hidden = [
         'password',
     ];
@@ -26,20 +27,30 @@ class Student extends Model
         'document',
         'status',
         'note',
+
+        // New fields from registration form
+        'parent_name',
+        'grade',
+        'address',
+        'medical_condition',
+        'performance',
+        'schedule',
+        'terms',
+        'source',
     ];
 
     protected $casts = [
         'status' => 'boolean',
         'dob' => 'date',
+        'schedule' => 'array',   // JSON to array
+        'terms' => 'boolean',
     ];
 
-    //  full name accessor
+    // Full name accessor
     public function getFullNameAttribute(): string
     {
         return trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
     }
-
-    
 
     // Auto-generate student_id on create
     protected static function booted()
@@ -50,8 +61,14 @@ class Student extends Model
                 $number = $lastStudent ? ((int) substr($lastStudent->student_id, 1)) + 1 : 1;
                 $student->student_id = 'S' . str_pad($number, 4, '0', STR_PAD_LEFT);
             }
+
+            // Set default source to website if not set
+            if (!$student->source) {
+                $student->source = 'website';
+            }
         });
     }
+
     public function classSessions()
     {
         return $this->belongsToMany(ClassSession::class, 'class_session_student', 'student_id', 'class_session_id');
@@ -61,7 +78,4 @@ class Student extends Model
     {
         return $this->hasMany(ParentModel::class);
     }
-
-
-
 }

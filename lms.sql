@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2026 at 11:09 PM
+-- Generation Time: Mar 19, 2026 at 08:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,8 +46,8 @@ CREATE TABLE `class_sessions` (
 --
 
 INSERT INTO `class_sessions` (`id`, `title`, `description`, `class_date`, `start_time`, `end_time`, `teacher_id`, `status`, `class_link`, `created_at`, `updated_at`) VALUES
-(1, 'English', NULL, '2026-02-21', '10:00:00', '12:00:00', 4, 'Upcoming', NULL, '2026-02-18 04:36:09', '2026-02-24 03:59:56'),
-(2, 'Special Class', NULL, '2026-02-21', '11:00:00', '13:00:00', 1, 'Upcoming', NULL, '2026-02-18 05:49:26', '2026-02-22 21:38:53');
+(1, 'English', NULL, '2026-03-21', '10:00:00', '12:00:00', 4, 'Upcoming', NULL, '2026-02-18 04:36:09', '2026-02-24 03:59:56'),
+(2, 'Special Class', NULL, '2026-02-21', '11:00:00', '13:00:00', 1, 'Completed', NULL, '2026-02-18 05:49:26', '2026-02-22 21:38:53');
 
 -- --------------------------------------------------------
 
@@ -117,7 +117,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2026_02_20_205030_add_password_to_teachers_table', 9),
 (14, '2026_02_20_205635_add_password_to_students_table', 10),
 (15, '2026_02_23_224122_add_qualification_and_experience_to_teachers_table', 11),
-(16, '2026_02_23_230619_create_parent_models_table', 12);
+(16, '2026_02_23_230619_create_parent_models_table', 12),
+(17, '2026_03_03_003443_create_site_settings_table', 13),
+(18, '2026_03_03_043533_add_photo_to_parents_table', 13),
+(19, '2026_03_03_003443_create_site_settings_hours_table', 14),
+(20, '2026_03_19_010131_add_registration_fields_to_students_table', 15),
+(21, '2026_03_19_013122_make_password_nullable_in_students_table', 16);
 
 -- --------------------------------------------------------
 
@@ -168,6 +173,7 @@ CREATE TABLE `parents` (
   `relation` varchar(255) NOT NULL,
   `note` text DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -176,8 +182,8 @@ CREATE TABLE `parents` (
 -- Dumping data for table `parents`
 --
 
-INSERT INTO `parents` (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `student_id`, `relation`, `note`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'Sam', NULL, 'John', 'sam@test.com', '647555555', 1, 'Father', NULL, '$2y$12$O.qGddUQqucZEToznlP8puUWu7y25pvSkYiK6roKrC.fnfv2zQjV.', '2026-02-24 04:22:22', '2026-02-24 04:23:48');
+INSERT INTO `parents` (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `student_id`, `relation`, `note`, `password`, `photo`, `created_at`, `updated_at`) VALUES
+(1, 'John', NULL, 'Sam', 'sam@test.com', '647555555', 1, 'Father', NULL, '$2y$12$O.qGddUQqucZEToznlP8puUWu7y25pvSkYiK6roKrC.fnfv2zQjV.', 'parents/1/photos/01KJT6F896TSDDPF940ZCN095Z.png', '2026-02-24 04:22:22', '2026-03-03 20:53:36');
 
 -- --------------------------------------------------------
 
@@ -282,6 +288,48 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `site_settings`
+--
+
+CREATE TABLE `site_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `contact_email` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
+  `whatsapp_number` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `facebook_url` varchar(255) DEFAULT NULL,
+  `instagram_url` varchar(255) DEFAULT NULL,
+  `twitter_url` varchar(255) DEFAULT NULL,
+  `linkedin_url` varchar(255) DEFAULT NULL,
+  `youtube_url` varchar(255) DEFAULT NULL,
+  `monday_start` time DEFAULT NULL,
+  `monday_end` time DEFAULT NULL,
+  `tuesday_start` time DEFAULT NULL,
+  `tuesday_end` time DEFAULT NULL,
+  `wednesday_start` time DEFAULT NULL,
+  `wednesday_end` time DEFAULT NULL,
+  `thursday_start` time DEFAULT NULL,
+  `thursday_end` time DEFAULT NULL,
+  `friday_start` time DEFAULT NULL,
+  `friday_end` time DEFAULT NULL,
+  `saturday_start` time DEFAULT NULL,
+  `saturday_end` time DEFAULT NULL,
+  `sunday_start` time DEFAULT NULL,
+  `sunday_end` time DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `site_settings`
+--
+
+INSERT INTO `site_settings` (`id`, `contact_email`, `phone_number`, `whatsapp_number`, `address`, `facebook_url`, `instagram_url`, `twitter_url`, `linkedin_url`, `youtube_url`, `monday_start`, `monday_end`, `tuesday_start`, `tuesday_end`, `wednesday_start`, `wednesday_end`, `thursday_start`, `thursday_end`, `friday_start`, `friday_end`, `saturday_start`, `saturday_end`, `sunday_start`, `sunday_end`, `created_at`, `updated_at`) VALUES
+(1, 'info@tutor123.ca', '647-996-0389', '6476871322', '1-3120 Rutherford Road, Vaughan ON L4K 0B1 (Head Office)', NULL, 'https://www.instagram.com/tutor123.ca', NULL, 'https://www.linkedin.com/company/tutor123/', NULL, '10:00:00', '17:00:00', '10:00:00', '17:00:00', '10:00:00', '17:00:00', '10:00:00', '17:00:00', '10:00:00', '17:00:00', '10:00:00', '17:00:00', '22:00:00', '17:00:00', '2026-03-04 02:34:54', '2026-03-12 21:53:16');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `students`
 --
 
@@ -291,8 +339,16 @@ CREATE TABLE `students` (
   `first_name` varchar(255) NOT NULL,
   `middle_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) NOT NULL,
+  `parent_name` varchar(255) NOT NULL,
+  `grade` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `medical_condition` varchar(255) DEFAULT NULL,
+  `performance` text NOT NULL,
+  `schedule` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`schedule`)),
+  `terms` tinyint(1) NOT NULL DEFAULT 0,
+  `source` enum('admin','website') NOT NULL DEFAULT 'website',
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `gender` enum('Male','Female','Other') DEFAULT NULL,
@@ -308,10 +364,14 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`id`, `student_id`, `first_name`, `middle_name`, `last_name`, `email`, `password`, `phone`, `dob`, `gender`, `image`, `document`, `status`, `note`, `created_at`, `updated_at`) VALUES
-(1, 'S0001', 'Philip', NULL, 'John', 'test3@gmail.com', '', '77777777', '1999-01-01', NULL, NULL, 'students/1/documents/01KJ32D4DCYPHVCYRGYJ9C0BFP.pdf', 0, 'test', '2026-02-17 11:25:29', '2026-02-22 22:01:15'),
-(2, 'S0002', 'Thomas', NULL, 'George', 'thomas@gmail.com', '', '647444444', '2000-02-02', 'Male', 'students/2/photos/01KHYDP16PX4D8SRVG8TNZNVRK.png', 'students/2/documents/01KJ32C7NCCM6GN1R7RGRR2J1E.pdf', 1, NULL, '2026-02-18 03:37:31', '2026-02-22 21:19:31'),
-(3, 'S0003', 'Helen', NULL, 'Thomas', 'helen@test.com', '$2y$12$63dUym9HEDiSf.5MCpkBSumvQuhqloEtW2kc1q8Gl9iwoShvvKUb.', '647552366', NULL, NULL, NULL, NULL, 1, NULL, '2026-02-24 04:29:26', '2026-02-24 04:29:26');
+INSERT INTO `students` (`id`, `student_id`, `first_name`, `middle_name`, `last_name`, `parent_name`, `grade`, `address`, `medical_condition`, `performance`, `schedule`, `terms`, `source`, `email`, `password`, `phone`, `dob`, `gender`, `image`, `document`, `status`, `note`, `created_at`, `updated_at`) VALUES
+(1, 'S0001', 'Philip', NULL, 'John', '', '', '', NULL, '', NULL, 0, 'admin', 'test3@gmail.com', '', '77777777', '1999-01-01', NULL, NULL, 'students/1/documents/01KJ32D4DCYPHVCYRGYJ9C0BFP.pdf', 0, 'test', '2026-02-17 11:25:29', '2026-02-22 22:01:15'),
+(2, 'S0002', 'Thomas', NULL, 'George', '', '', '', NULL, '', NULL, 0, 'admin', 'thomas@gmail.com', '', '647444444', '2000-02-02', 'Male', 'students/2/photos/01KHYDP16PX4D8SRVG8TNZNVRK.png', 'students/2/documents/01KJ32C7NCCM6GN1R7RGRR2J1E.pdf', 1, NULL, '2026-02-18 03:37:31', '2026-02-22 21:19:31'),
+(3, 'S0003', 'Helen', NULL, 'Thomas', '', '', '', NULL, '', NULL, 0, 'admin', 'helen@test.com', '$2y$12$63dUym9HEDiSf.5MCpkBSumvQuhqloEtW2kc1q8Gl9iwoShvvKUb.', '647552366', NULL, NULL, NULL, NULL, 1, NULL, '2026-02-24 04:29:26', '2026-02-24 04:29:26'),
+(4, 'S0004', 'kjkj', 'jnkn', 'kjn', 'kjnk', '5', 'edfgdfgfdgd', 'tedf', 'dsfdsfds', '{\"Monday\":\"3:00 PM\",\"Tuesday\":\"3:00 PM\",\"Wednesday\":\"4:00 PM\",\"Thursday\":\"5:00 PM\",\"Friday\":\"6:00 PM\",\"Saturday\":\"7:00 PM\"}', 1, 'website', 'fgf@dg.fsdf', NULL, '6475741236', '2005-02-02', 'Male', NULL, NULL, 0, NULL, '2026-03-19 05:38:05', '2026-03-19 05:56:04'),
+(5, 'S0005', 'sdfdsf', 'sfsdf', 'sadff', 'sdfdsfds', '5', 'ytghfhg', NULL, 'yhtgyhjgj', '{\"Monday\":\"4:00 PM\",\"Tuesday\":\"5:00 PM\",\"Wednesday\":\"3:00 PM\",\"Thursday\":\"7:00 PM\",\"Friday\":\"6:00 PM\",\"Saturday\":\"5:00 PM\"}', 1, 'website', 'asdfsdf@werewr.err', NULL, '6476475623', '2012-03-07', 'Male', NULL, NULL, 0, NULL, '2026-03-19 06:34:59', '2026-03-19 06:34:59'),
+(6, 'S0006', 'kmk', 'mjnkn', 'jn', 'nkjnkn', '4', 'sdfsfdsf', 'dsg', 'sdfd', '{\"Monday\":\"4:00 PM\",\"Tuesday\":\"5:00 PM\",\"Wednesday\":\"6:00 PM\"}', 1, 'website', 'asdsad@adew.efdsf', NULL, '6547563214', '2001-10-10', 'Male', NULL, NULL, 0, NULL, '2026-03-19 08:16:53', '2026-03-19 08:16:53'),
+(7, 'S0007', 'kmk', 'knk', 'kjnjkn', 'nkjnk', '4', 'dsfdfgfddsg', 'sdgfv', 'dfgf', '{\"Monday\":\"6:00 PM\",\"Tuesday\":\"3:00 PM\",\"Wednesday\":\"4:00 PM\"}', 1, 'website', 'sam@test.com', NULL, '6547563258', '2001-10-10', 'Female', NULL, NULL, 0, NULL, '2026-03-19 08:42:52', '2026-03-19 08:42:52');
 
 -- --------------------------------------------------------
 
@@ -344,7 +404,7 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`id`, `teacher_id`, `status`, `first_name`, `middle_name`, `last_name`, `email`, `password`, `phone`, `dob`, `gender`, `image`, `teacher_id_document`, `created_at`, `updated_at`, `qualification`, `years_of_experience`) VALUES
-(1, 'T0001', 1, 'Sara', NULL, 'Sam', 'sara@gmail.com', '', '7774111111', '1999-01-01', 'Female', 'teachers/1/photos/01KHVS88JM2AFJTH0X69WFGJJR.jpg', 'teachers/1/documents/01KHVQ3T9ZS0MSMWTTT881ZHWT.pdf', '2026-02-17 10:26:26', '2026-02-24 03:48:43', 'Masters', 3),
+(1, 'T0001', 1, 'Sara', NULL, 'Sam', 'sara@gmail.com', '', '7774111111', '1999-01-01', 'Female', 'teachers/1/photos/01KJN2ZXV8PJ61W3KFA00TS4VA.jpg', 'teachers/1/documents/01KHVQ3T9ZS0MSMWTTT881ZHWT.pdf', '2026-02-17 10:26:26', '2026-03-01 21:16:36', 'Masters', 3),
 (4, 'T0002', 1, 'Alex', NULL, 'John', 'alex@test.com', '$2y$12$oTeJuUggxntN.6fgbKVG/.rSi6DaNxLGJx8SEdxKHnTRh43onTnn6', '647772555', '2000-04-03', 'Male', 'teachers/new/photos/01KJ32FPDEZ817ZS617QFHY634.png', 'teachers/new/documents/01KJ32FPDS85VYQVYYHW8GQR7K.pdf', '2026-02-22 21:21:25', '2026-02-24 03:49:24', 'Masters', 3),
 (5, 'T0003', 1, 'Mohamed', NULL, 'Ahmed', 'mo@gmail.com', '$2y$12$BWjkB6AKy3wuz3JVAnzfQeGg2ywBMa8vBWx21dKR9pXkV4T358Nde', '6471444444', '2000-05-03', 'Male', 'teachers/new/photos/01KJ6AWZPB8Y178CY7G1C0J9JS.png', NULL, '2026-02-24 03:46:12', '2026-02-24 03:48:11', 'Degree', 2);
 
@@ -463,6 +523,12 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
+-- Indexes for table `site_settings`
+--
+ALTER TABLE `site_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
@@ -511,7 +577,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `parents`
@@ -538,10 +604,16 @@ ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `site_settings`
+--
+ALTER TABLE `site_settings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `teachers`

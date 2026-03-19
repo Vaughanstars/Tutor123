@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Models\ClassSession;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\AboutController;
+use App\Http\Controllers\Frontend\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +19,9 @@ use App\Models\ClassSession;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 
@@ -27,3 +31,14 @@ Route::get('/admin/class-sessions/{classSession}/students', function (App\Models
         'students' => $classSession->students,
     ]);
 })->name('filament.class-sessions.students');
+
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+// Route::get('/contact', [ContactController::class, 'index']);
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+Route::get('/register', [StudentController::class, 'index'])->name('register');
+Route::post('/students', [StudentController::class, 'store'])->name('student.store');
+Route::get('/terms', [StudentController::class, 'terms'])->name('terms');

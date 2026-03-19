@@ -1,0 +1,213 @@
+
+.site-logo {
+  height: 65px;
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .site-logo {
+    height: 55px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-logo {
+    height: 50px;
+  }
+}
+
+.font_title{
+  font-size: 47px ! !important;
+}
+
+.font_title h1 span {
+  color: #F2277E !important;
+}
+
+.footerline {
+  border-bottom: 1px solid var(--darkcolor);
+}
+.testi_pad{
+  padding-bottom: 25px;
+}
+.form-messege.success {
+    color: #28a745;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.form-messege.error {
+    color: #dc3545;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.aboutarea__content__wraper__5 .aboutarea__5__small__icon__wraper{
+  margin-top: 1px !important;
+}
+
+
+
+
+
+/* Background with curved style */
+.special-countries {
+    background: #6A3A78; /* Purple background */
+    border-radius: 30px;
+    padding: 10px 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Optional subtle curve decoration */
+.special-countries::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200px;
+    background: rgba(255,255,255,0.05);
+    top: -50px;
+    left: -50%;
+    border-radius: 50%;
+    transform: rotate(45deg);
+}
+
+/* Heading */
+.special-countries h3 {
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+/* Flag container */
+.country-flag img {
+    width: 60px;
+    height: auto;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Hover effect for flags */
+.country-flag img:hover {
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+/* Flag text */
+.country-flag p {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .country-flag img {
+        width: 50px;
+    }
+}
+
+
+
+
+.countriesarea{
+  border: 1px solid #eecb70;
+  margin-left: 33px;
+  margin-right: 33px;
+}
+
+
+.aboutlabel {
+  background-color: var(--primaryColor) !important;
+  color: var(--blackColor) !important;
+}
+
+.gridarea__wraper{
+  border: 1px solid;
+  border-radius: 12px;
+}
+.stepsbadge{
+   background-color: var(--primaryColor) !important;
+}
+.homecontact{
+  background: var(--lightyellow) !important;
+  border-radius: 35px;
+}
+.contactbtn{
+  background-color: var(--primaryColor) !important;
+}
+.footerarea{
+   background-color: var(--bodyBg) !important;
+}
+.footerlogodiv{
+  background-color: var(--primaryColor) !important;
+}
+
+.contactbtn:hover {
+  border: 1px solid var(--whiteColor) !important;
+  color: var(--whiteColor) !important;
+  background: var(--darkblack) !important;
+}
+.headerarea {
+  background: var(--primaryColor) !important;
+}
+.mobile-off-canvas-active{
+  background-color: var(--darkdeep1);
+}
+@media (max-width: 767px) {
+  .footerarea__icon__2 {
+    text-align: left !important;
+  }
+
+  .footerarea__icon__2 .headerarea__button {
+    float: left;
+  }
+}
+.single__testimonial__wraper{
+  border: 1px solid #e0a326;
+  border-radius: 35px;
+}
+.login_btn{
+  padding-right:10px !important ;
+}
+
+.active_menu{
+    color:var(--bodyBg) !important;
+    
+}
+.footercontact, .header_btn{
+  border-radius: 10px !important;
+}
+
+.highlight-heading{
+    font-size: 28px !important;
+    font-weight: 500;
+    text-align: center;
+    color: var(--primaryColor);
+}
+
+.highlight-heading span:not(:last-child)::after{
+    content: " | ";
+    color: #999;
+    margin: 0 8px;
+}
+
+.about-list li{
+    display: block;
+    margin-bottom: 8px;
+    list-style: disc;
+}
+.header-mobile-aside-wrap{
+  background-color: var(--primaryColor) !important;
+}
+.register_area{
+  border: 1px solid var(--primaryColor);
+  border-radius: 12px;
+}
+
+.disabled-btn:disabled {
+    opacity: 0.5;       /* make it look faded */
+    cursor: not-allowed; /* show not-allowed cursor */
+    pointer-events: none; /* prevent clicking */
+}
