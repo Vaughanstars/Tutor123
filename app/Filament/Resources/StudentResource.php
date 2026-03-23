@@ -29,102 +29,140 @@ class StudentResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationLabel = 'Students';
     protected static ?string $navigationGroup = 'Management';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Grid::make(2)->schema([
-                    TextInput::make('student_id')
-                        ->label('Student ID')
-                        ->disabled()
-                        ->dehydrated(false)
-                        ->default(fn () => 'S' . str_pad(Student::count() + 1, 4, '0', STR_PAD_LEFT)),
+        ->schema([
+            Grid::make(2)->schema([
+                TextInput::make('student_id')
+                ->label('Student ID')
+                ->disabled()
+                ->dehydrated(false)
+                ->default(fn () => 'S' . str_pad(Student::count() + 1, 4, '0', STR_PAD_LEFT)),
 
-                    TextInput::make('first_name')->required(),
-                    TextInput::make('middle_name'),
-                    TextInput::make('last_name')->required(),
-                    TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
-                    TextInput::make('password')
-                    ->label('Password')
-                    ->password()
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                    ->maxLength(255),
-                    TextInput::make('phone'),
-                    DatePicker::make('dob')->label('Date of Birth'),
-                    Select::make('gender')
-                        ->options([
-                            'Male' => 'Male',
-                            'Female' => 'Female',
-                            'Other' => 'Other',
-                        ]),
-                    Textarea::make('note')->label('Note')->rows(3),
-                    FileUpload::make('image')
-                        ->label('Photo')
-                        ->image()
-                        ->disk('public')
-                        ->directory(fn ($record) => 'students/' . ($record?->id ?? 'new') . '/photos')
-                        ->nullable(),
-                    FileUpload::make('document')
-                        ->label('Document')
-                        ->disk('public')
-                        ->directory(fn ($record) => 'students/' . ($record?->id ?? 'new') . '/documents')
-                        ->nullable(),
-                    Toggle::make('status')->label('Enabled')->default(true),
+                TextInput::make('first_name')->required(),
+                TextInput::make('middle_name'),
+                TextInput::make('last_name')->required(),
+                TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
+                TextInput::make('password')
+                ->label('Password')
+                ->password()
+                ->required(fn (string $context): bool => $context === 'create')
+                ->dehydrated(fn ($state) => filled($state))
+                ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                ->maxLength(255),
+                TextInput::make('phone'),
+                
+                DatePicker::make('dob')
+                ->label('Date of Birth')
+                ->maxDate(now()->subYears(3)) // at least 3 years old
+                ->required(),
+
+                Select::make('gender')
+                ->options([
+                    'Male' => 'Male',
+                    'Female' => 'Female',
+                    'Other' => 'Other',
                 ]),
-            ]);
+
+
+                TextInput::make('grade')
+                ->required(),
+
+                TextInput::make('parent_name')
+                ->label('Parent / Guardian')
+                ->required(),
+
+                TextInput::make('address')
+                ->required(),
+
+
+                Textarea::make('medical_condition')
+                ->label('Medical Condition / Allergies'),
+
+                Textarea::make('performance')
+                ->label('Student Performance & Expectations')
+                ->required(),
+
+                Grid::make(3)->schema([
+                    Select::make('schedule.Monday')->label('Monday')->options(self::timeOptions()),
+                    Select::make('schedule.Tuesday')->label('Tuesday')->options(self::timeOptions()),
+                    Select::make('schedule.Wednesday')->label('Wednesday')->options(self::timeOptions()),
+                    Select::make('schedule.Thursday')->label('Thursday')->options(self::timeOptions()),
+                    Select::make('schedule.Friday')->label('Friday')->options(self::timeOptions()),
+                    Select::make('schedule.Saturday')->label('Saturday')->options(self::timeOptions()),
+                ]),
+
+
+                Textarea::make('note')->label('Note')->rows(3),
+                FileUpload::make('image')
+                ->label('Photo')
+                ->image()
+                ->disk('public')
+                ->directory(fn ($record) => 'students/' . ($record?->id ?? 'new') . '/photos')
+                ->nullable(),
+                FileUpload::make('document')
+                ->label('Document')
+                ->disk('public')
+                ->directory(fn ($record) => 'students/' . ($record?->id ?? 'new') . '/documents')
+                ->nullable(),
+                Toggle::make('status')->label('Enabled')->default(true),
+            ]),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('student_id')->sortable()->searchable(),
-                TextColumn::make('full_name')
-                    ->label('Full Name')
-                    ->getStateUsing(fn ($record) => trim("{$record->first_name} {$record->middle_name} {$record->last_name}"))
-                    ->sortable()->searchable(['first_name', 'middle_name', 'last_name']),
-                TextColumn::make('email')->sortable()->searchable(),
-                TextColumn::make('phone'),
-                TextColumn::make('gender'),
-                TextColumn::make('dob')->date(),
-                ImageColumn::make('image')->label('Photo')->disk('public')->rounded()->height(50)->width(50),
-                TextColumn::make('document')
-                    ->label('Document')
-                    ->formatStateUsing(fn ($state) => $state ? "<a href='" . asset('storage/' . $state) . "' target='_blank'>View</a>" : '-')
-                    ->html(),
-                BadgeColumn::make('status')
-                    ->getStateUsing(fn ($record) => $record->status ? 'Enabled' : 'Disabled')
-                    ->colors([
-                        'success' => fn ($record) => $record->status,
-                        'danger' => fn ($record) => !$record->status,
-                    ])
-                    ->sortable(),
+        ->columns([
+            TextColumn::make('student_id')->sortable()->searchable(),
+            TextColumn::make('full_name')
+            ->label('Full Name')
+            ->getStateUsing(fn ($record) => trim("{$record->first_name} {$record->middle_name} {$record->last_name}"))
+            ->sortable()->searchable(['first_name', 'middle_name', 'last_name']),
+            TextColumn::make('email')->sortable()->searchable(),
+            TextColumn::make('phone'),
+            TextColumn::make('gender'),
+            TextColumn::make('dob')->date(),
+            ImageColumn::make('image')->label('Photo')->disk('public')->rounded()->height(50)->width(50),
+            TextColumn::make('document')
+            ->label('Document')
+            ->formatStateUsing(fn ($state) => $state ? "<a href='" . asset('storage/' . $state) . "' target='_blank'>View</a>" : '-')
+            ->html(),
+            BadgeColumn::make('status')
+            ->getStateUsing(fn ($record) => $record->status ? 'Enabled' : 'Disabled')
+            ->colors([
+                'success' => fn ($record) => $record->status,
+                'danger' => fn ($record) => !$record->status,
+            ])
+            ->sortable(),
 
                 // Toggle for inline enable/disable
-                ToggleColumn::make('status')
-                    ->label('Enabled')
-                    ->sortable()
-                    ->onColor('success')
-                    ->offColor('danger'),
+            ToggleColumn::make('status')
+            ->label('Enabled')
+            ->sortable()
+            ->onColor('success')
+            ->offColor('danger'),
 
-                    ImageColumn::make('image')
-                    ->label('Photo')
-                    ->disk('public')
-                    ->rounded()
-                    ->height(50)
-                    ->width(50)
-                    ->default(asset('images/user.jpg')), 
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ImageColumn::make('image')
+            ->label('Photo')
+            ->disk('public')
+            ->rounded()
+            ->height(50)
+            ->width(50)
+            ->default(asset('images/user.jpg')), 
+        ])
+        ->actions([
+           // Tables\Actions\ViewAction::make(), 
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+
+        ])
+        ->bulkActions([
+            Tables\Actions\DeleteBulkAction::make(),
+        ]);
     }
 
     public static function getRelations(): array
@@ -138,10 +176,22 @@ class StudentResource extends Resource
             'index' => Pages\ListStudents::route('/'),
             'create' => Pages\CreateStudent::route('/create'),
             'edit' => Pages\EditStudent::route('/{record}/edit'),
+            'view' => Pages\ViewStudent::route('/{record}/view'),
         ];
     }
     // public static function canViewAny(): bool
     // {
     //     return false;
     // }
+
+    protected static function timeOptions(): array
+    {
+        return [
+            '3:00 PM' => '3:00 PM',
+            '4:00 PM' => '4:00 PM',
+            '5:00 PM' => '5:00 PM',
+            '6:00 PM' => '6:00 PM',
+            '7:00 PM' => '7:00 PM',
+        ];
+    }
 }

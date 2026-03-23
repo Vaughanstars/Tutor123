@@ -8,10 +8,12 @@ $(document).ready(function() {
 
     var form = $('#contact-form');
     var formMessages = $('.form-messege');
+    var submitBtn = $('#contactBtn'); 
 
     form.submit(function(e) {
         e.preventDefault();
-
+        submitBtn.prop('disabled', true);
+        submitBtn.text('Sending...');
         $.ajax({
             type: 'POST',
             url: form.attr('action'),
@@ -20,6 +22,10 @@ $(document).ready(function() {
                 formMessages.removeClass('error').addClass('success').css('color', 'green');
                 formMessages.text(response.message);
                 form.find('input, textarea').val(''); // also reset select fields
+
+                submitBtn.text('Send');
+                submitBtn.prop('disabled', false);
+
             },
             error: function(xhr) {
                 formMessages.removeClass('success').addClass('error').css('color', 'red');
@@ -29,6 +35,9 @@ $(document).ready(function() {
                 } else {
                     formMessages.text('Oops! Something went wrong.');
                 }
+
+                submitBtn.text('Send');
+                submitBtn.prop('disabled', false);
             }
         });
     });

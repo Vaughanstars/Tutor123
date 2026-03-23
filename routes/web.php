@@ -33,11 +33,11 @@ Route::get('/admin/class-sessions/{classSession}/students', function (App\Models
 })->name('filament.class-sessions.students');
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 // Route::get('/contact', [ContactController::class, 'index']);
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
-
-Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::get('/register', [StudentController::class, 'index'])->name('register');
 Route::post('/students', [StudentController::class, 'store'])->name('student.store');

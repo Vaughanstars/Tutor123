@@ -85,8 +85,12 @@
                         <a href="https://www.instagram.com/tutor123.ca" target="_blank"><i class="icofont-instagram"></i></a>
                       </li>
                       <li>
+                        <a href="#" target="_blank"><i class="icofont-facebook"></i></a>
+                      </li>
+                      <li>
                         <a href="https://www.linkedin.com/company/tutor123/" target="_blank"><i class="icofont-linkedin"></i></a>
                       </li>
+                      
                       <!-- <li>
                         <a href="#"><i class="icofont-youtube-play"></i></a>
                       </li> -->

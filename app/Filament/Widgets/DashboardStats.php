@@ -6,10 +6,13 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use App\Models\Teacher;
 use App\Models\Student;
+use App\Models\ParentModel;
 use App\Models\ClassSession;
 
 class DashboardStats extends BaseWidget
 {
+    protected int | string | array $columnSpan = 'full';
+
     protected function getStats(): array
     {
         return [
@@ -21,10 +24,11 @@ class DashboardStats extends BaseWidget
                 ->description('All registered students')
                 ->color('primary'),
 
-            Stat::make(
-                'Completed Classes',
-                ClassSession::where('status', 'completed')->count()
-            )
+            Stat::make('Total Parents', ParentModel::count())
+                ->description('All registered Parents')
+                ->color('success'),
+
+            Stat::make('Completed Classes', ClassSession::where('status', 'completed')->count())
                 ->description('Classes marked as completed')
                 ->color('warning'),
         ];

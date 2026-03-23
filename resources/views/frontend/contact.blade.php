@@ -110,11 +110,22 @@
                     </div>
                 </div>
             </div>
+            <div class="row mt-4" data-aos="fade-up">
+                <div class="col-xl-12">
+                    <div class="single__contact text-center" style="padding: 25px;">
 
+                        <p style="margin: 0;">
+                           In-person tutoring is available in Vaughan, Brampton, and Mississauga.
+                       </p>
+                   </div>
+               </div>
+           </div>
 
-        </div>
-    </div>
+       </div>
+   </div>
 </div>
+
+
 <!-- .contact__section__end -->
 
 
@@ -124,6 +135,7 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="contact__form__inner">
+
                     <div class="contact__form__heading" data-aos="fade-up">
                         <h3>Send Us a Message</h3>
                         <p>Required fields are marked * </p>
@@ -218,7 +230,7 @@
                             <div class="col-xl-12" data-aos="fade-up">
                                 <div class="contact__button">
 
-                                    <button type="submit" value="submit" class="default__button" name="submit">Send</button>
+                                    <button type="submit" value="submit" class="default__button" name="submit" id="contactBtn">Send</button>
 
                                     <p class="form-messege">
 

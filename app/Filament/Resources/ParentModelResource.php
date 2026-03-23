@@ -31,6 +31,7 @@ class ParentModelResource extends Resource
     protected static ?string $navigationGroup = 'Management';
     protected static ?string $navigationIcon = 'heroicon-o-users';
    // protected static ?string $navigationGroup = 'User Management';
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $modelLabel = 'Parent';
     protected static ?string $pluralModelLabel = 'Parents';
